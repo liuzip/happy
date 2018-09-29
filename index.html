@@ -3,10 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>happy</title>
+    <title>快乐小麻将</title>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script type="text/javascript">
+    !(function(w, d) {
+      var root = d.documentElement;
+      function setRootFontSize() {
+        var x = root.clientWidth / 18.75; // 3.75
+        root.style.fontSize = x + 'px';
+      }
+
+      (function setBodyFontSize() {
+        if (d.body) {
+          d.body.style.fontSize = '16px';
+        } else {
+          d.addEventListener('DOMContentLoaded', setBodyFontSize);
+        }
+      }());
+
+      setRootFontSize();
+      w.addEventListener('resize', function() { setRootFontSize(); });
+      w.addEventListener('pageshow', function() { setRootFontSize(); });
+    })(window, document);
+  </script>
 </html>
