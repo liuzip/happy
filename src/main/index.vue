@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import localStorage from '@/utils/localStorage'
 export default {
   data () {
     return {
@@ -19,14 +20,12 @@ export default {
           content: `确认使用账号${this.config.alias}（${this.config.phone}）登陆吗？`,
           showCancelButton: true,
           confirm: () => {
-            this.saveData({
-              verify: true
-            })
+            console.log('click confirm')
           }
         })
       } else {
-        this.$route.push({
-          path: '/login'
+        this.$router.push({
+          name: 'login'
         })
       }
     }
