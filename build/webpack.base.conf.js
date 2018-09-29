@@ -1,37 +1,29 @@
-var path = require('path')
-var fs = require('fs')
-var utils = require('./utils')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
-var MpvuePlugin = require('webpack-mpvue-asset-plugin')
-var glob = require('glob')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var relative = require('relative')
+'use strict'
+const path = require('path')
+const utils = require('./utils')
+const config = require('../config')
+const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntry (rootSrc) {
-  var map = {};
-  glob.sync(rootSrc + '/pages/**/main.js')
-  .forEach(file => {
-    var key = relative(rootSrc, file).replace('.js', '');
-    map[key] = file;
-  })
-   return map;
-}
-
-const appEntry = { app: resolve('./src/main.js') }
-const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
-const entry = Object.assign({}, appEntry, pagesEntry)
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+})
 
 module.exports = {
-  // 如果要自定义生成的 dist 目录里面的文件路径，
-  // 可以将 entry 写成 {'toPath': 'fromPath'} 的形式，
-  // toPath 为相对于 dist 的路径, 例：index/demo，则生成的文件地址为 dist/index/demo.js
-  entry,
-  target: require('mpvue-webpack-target'),
+  context: path.resolve(__dirname, '../'),
+  entry: {
+    app: './src/main.js'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -42,48 +34,29 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue': 'mpvue',
-      '@': resolve('src')
-    },
-    symlinks: false,
-    aliasFields: ['mpvue', 'weapp', 'browser'],
-    mainFields: ['browser', 'module', 'main']
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+    }
   },
   module: {
     rules: [
-      {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
-        loader: 'mpvue-loader',
+        loader: 'vue-loader',
         options: vueLoaderConfig
       },
       {
         test: /\.js$/,
-        include: [resolve('src'), resolve('test')],
-        use: [
-          'babel-loader',
-          {
-            loader: 'mpvue-loader',
-            options: {
-              checkMPEntry: true
-            }
-          },
-        ]
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[ext]')
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
       {
@@ -91,7 +64,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[ext]')
+          name: utils.assetsPath('media/[name].[hash:7].[ext]')
         }
       },
       {
@@ -99,25 +72,21 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
     ]
   },
-  plugins: [
-    new MpvuePlugin(),
-    new CopyWebpackPlugin([{
-      from: '**/*.json',
-      to: ''
-    }], {
-      context: 'src/'
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: path.resolve(__dirname, '../dist/static'),
-        ignore: ['.*']
-      }
-    ])
-  ]
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty'
+  }
 }
