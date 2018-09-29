@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const uglify = require('uglifyjs-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -100,7 +101,8 @@ module.exports = {
     child_process: 'empty'
   },
   plugins: [
-    new ExtractTextPlugin('[name].scss')
+    new ExtractTextPlugin('[name].scss'),
+    new uglify()
   ]
 
 }

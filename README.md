@@ -2,14 +2,17 @@
 
 > Happy Mahjong
 
-## Build Setup
+## 运行步骤
 
 ``` bash
-# install dependencies
+# 安装依赖
 npm install
 
-# build for production with minification
+# 编译
 npm run build
+
+# 运行server
+node app/bin/www
 ```
 
 # 许可
