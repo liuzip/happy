@@ -19,7 +19,7 @@ const state = {
 
 const mutations = {
   initStore (state) {
-    state.config = localStorage.get('config')
+    state.config = localStorage.get('config') || {alias: '', phone: ''}
   },
   signIn (state, {alias, phone}) {
     console.log(`alias: |${alias}|, phone |${phone}|`)
