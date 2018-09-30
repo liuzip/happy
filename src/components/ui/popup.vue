@@ -1,7 +1,6 @@
 <template>
-  <div class="a-overlay" :class="{'a-hidden':!show}" @click="handleClickOverlay" @touchmove.prevent>
-    <div class="a-popup a-fix-bottom" :class="{'a-hidden':!show}" @click.stop>
-      <div class="a-popup-title">{{title}}</div>
+  <div class="popup-overlay" :class="{'popup-hidden':!show}">
+    <div class="position-fix-center popup-body display-in-column" :class="{'popup-hidden':!show}" @click.stop>
       <div class="a-popup-desc">
         <p v-if="dangerouslyUseHTMLString" v-html="content"></p>
         <p v-else>{{content}}</p>
@@ -17,9 +16,6 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String
-    },
     content: {
       type: String
     },
@@ -60,11 +56,6 @@ export default {
     }
   },
   methods: {
-    handleClickOverlay () {
-      if (this.overlayClickable) {
-        this.callback('ignore')
-      }
-    },
     handleClickCancel () {
       this.callback('cancel')
     },
@@ -74,3 +65,21 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../scss/var';
+.popup-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .3);
+  .popup-body {
+    border: 1px solid #cccccc;
+    border-radius: 5 * $px;
+  }
+}
+
+.popup-hidden {
+  display: none;
+}
+</style>

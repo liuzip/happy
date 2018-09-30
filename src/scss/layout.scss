@@ -1,0 +1,31 @@
+.display-in-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.display-in-row.row-space-between{
+  justify-content: space-between;
+}
+
+.display-in-row.row-space-around{
+  justify-content: space-around;
+}
+
+.display-in-column {
+  display: flex;
+  flex-direction: column;
+}
+.display-in-column.column-in-center {
+  justify-content: center;
+}
+
+.position-fix-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.position-fix-center {
+  position: fixed;
+  margin: auto;
+}
