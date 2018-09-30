@@ -91,7 +91,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('[name].scss'),
+    new ExtractTextPlugin('[name].css'),
     new uglify(),
     new HtmlWebpackPlugin({
       filename: config.build.index,

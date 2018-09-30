@@ -5,6 +5,7 @@ import ui from './components/ui/index'
 import Index from './index'
 import router from './router'
 import store from './store'
+import './scss/index.scss'
 
 Vue.prototype.$withLoading = ui.withLoading
 Vue.prototype.$popup = ui.showPopup
