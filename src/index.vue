@@ -7,11 +7,11 @@
 <script>
 export default {
   name: 'App',
-  created () {
-    let detectOrient = this.$screenOrient
-    detectOrient()
-    window.addEventListener('resize', function () { detectOrient() })
-    window.addEventListener('pageshow', function () { detectOrient() })
+  beforeCreate () {
+    let screenOrient = this.$screenOrient
+    screenOrient()
+    window.addEventListener('resize', screenOrient)
+    window.addEventListener('pageshow', screenOrient)
   }
 }
 </script>

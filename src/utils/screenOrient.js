@@ -1,11 +1,19 @@
 let d = document
 let root = d.documentElement
+let forceVerticalFlag = false
 
-const screenOrient = function (forceVertical = false) {
+const screenOrient = function (forceVertical) {
+  if (forceVerticalFlag && typeof (forceVertical) === 'undefined') {
+    return
+  } else {
+    forceVerticalFlag = !(typeof (forceVertical) === 'undefined')
+  }
+
   let width = root.clientWidth
   let height = root.clientHeight
   let style = ''
-  if (width >= height || forceVertical) { // 横屏
+
+  if (width >= height || forceVertical === true) { // 横屏
     style += 'width:' + width + 'px;' // 注意旋转后的宽高切换
     style += 'height:' + height + 'px;'
     style += '-webkit-transform: rotate(0); transform: rotate(0);'
@@ -18,6 +26,7 @@ const screenOrient = function (forceVertical = false) {
     // 注意旋转中点的处理
     style += '-webkit-transform-origin: ' + width / 2 + 'px ' + width / 2 + 'px;'
     style += 'transform-origin: ' + width / 2 + 'px ' + width / 2 + 'px;'
+    width = height
   }
   root.style.cssText = style
 
