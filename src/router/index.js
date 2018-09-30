@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/main/index'
-import Login from '@/login/index'
+import Main from '@/pages/main/index'
+import Login from '@/pages/login/index'
+import Game from '@/pages/game/index'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/game',
+      name: 'game',
+      component: Game
     }
   ]
 })

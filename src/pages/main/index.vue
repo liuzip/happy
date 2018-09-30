@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/var';
+@import '../../scss/var';
 
 .board-background {
   position: absolute;
