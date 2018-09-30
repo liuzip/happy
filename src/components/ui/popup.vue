@@ -66,6 +66,8 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .3);
+  top: 0;
+  left: 0;
   .popup-body {
     position: fixed;
     border: 1px solid #666666;

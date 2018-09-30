@@ -26,16 +26,20 @@ export default {
   methods: {
     ...mapMutations(['signIn']),
     confirm () {
-      console.log(`alias: |${this.alias}|, phone |${this.phone}|`)
       this.signIn({
         alias: this.alias,
         phone: this.phone
       })
-      this.$rotuer.go(-1)
+      this.$screenOrient()
+      this.$router.back()
     },
     cancel () {
-      this.$rotuer.go(-1)
+      this.$screenOrient()
+      this.$router.back()
     }
+  },
+  mounted () {
+    this.$screenOrient(true)
   }
 }
 </script>

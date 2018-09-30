@@ -16,9 +16,7 @@
     <!-- built files will be auto injected -->
   </body>
   <script type="text/javascript">
-    !(function(w, d) {
-      let root = d.documentElement;
-
+    !(function(d) {
       (function setBodyFontSize() {
         if (d.body) {
           d.body.style.fontSize = '16px';
@@ -26,35 +24,6 @@
           d.addEventListener('DOMContentLoaded', setBodyFontSize);
         }
       }());
-
-      var detectOrient = function() {
-        let width = root.clientWidth
-        let height =  root.clientHeight
-        let style = ''
-        if (width >= height) { // 横屏
-            style += "width:" + width + "px;" // 注意旋转后的宽高切换
-            style += "height:" + height + "px;"
-            style += "-webkit-transform: rotate(0); transform: rotate(0);"
-            style += "-webkit-transform-origin: 0 0;"
-            style += "transform-origin: 0 0;"
-        }
-        else{ // 竖屏
-            style += "width:" + height + "px;"
-            style += "height:" + width + "px;"
-            style += "-webkit-transform: rotate(90deg); transform: rotate(90deg);"
-            // 注意旋转中点的处理
-            style += "-webkit-transform-origin: " + width / 2 + "px " + width / 2 + "px;"
-            style += "transform-origin: " + width / 2 + "px " + width / 2 + "px;"
-        }
-        root.style.cssText = style
-
-        let x = width / 18.75; // 3.75
-        root.style.fontSize = x + 'px';
-      }
-
-      detectOrient();
-      w.addEventListener('resize', function() { detectOrient(); });
-      w.addEventListener('pageshow', function() { detectOrient(); });
-    })(window, document);
+    })(document);
   </script>
 </html>

@@ -6,6 +6,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    let detectOrient = this.$screenOrient
+    detectOrient()
+    window.addEventListener('resize', function () { detectOrient() })
+    window.addEventListener('pageshow', function () { detectOrient() })
+  }
 }
 </script>
