@@ -1,7 +1,7 @@
 <template>
-  <div class="popup-overlay" :class="{'popup-hidden':!show}">
+  <div class="popup-overlay position-fix-center" :class="{'popup-hidden':!show}">
     <div class="popup-body display-in-column" :class="{'popup-hidden':!show}" @click.stop>
-      <div class="popup-desc">
+      <div class="popup-desc position-fix-center">
         <div v-if="dangerouslyUseHTMLString" v-html="content"></div>
         <div v-else>{{content}}</div>
       </div>
@@ -69,16 +69,11 @@ export default {
   top: 0;
   left: 0;
   .popup-body {
-    position: fixed;
     border: 1px solid #666666;
     border-radius: 5 * $px;
     width: 160 * $px;
     height: 80 * $px;
     background-color: #ffffff;
-    left: 50%;
-    top: 50%;
-    margin-left: -80 * $px;
-    margin-top: -40 * $px;
     .popup-desc {
       height: 60 * $px;
       text-align: center;
@@ -87,13 +82,14 @@ export default {
       height: 20 * $px;
       bottom: 0;
       border-top: 1px solid #666666;
+      width: 100%;
       .btn {
         line-height: 20 * $px;
         text-align: center;
         width: 100%;
       }
       .btn-sepreate-line {
-        margin-right: 1px solid #666666;
+        border-right: 1px solid #666666;
       }
     }
   }

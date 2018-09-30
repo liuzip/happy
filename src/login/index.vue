@@ -30,15 +30,15 @@ export default {
         alias: this.alias,
         phone: this.phone
       })
-      this.$screenOrient()
+      this.$screenOrient(false)
       this.$router.back()
     },
     cancel () {
-      this.$screenOrient()
+      this.$screenOrient(false)
       this.$router.back()
     }
   },
-  mounted () {
+  created () {
     this.$screenOrient(true)
   }
 }

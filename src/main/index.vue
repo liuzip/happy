@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="position-fix-center board-background">
+    <div class="create-room" @click="createRoom">新建房间</div>
   </div>
 </template>
 
@@ -38,11 +39,30 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['initStore'])
+    ...mapMutations(['initStore']),
+    createRoom () {
+      console.log('createRoom')
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/var';
+
+.board-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .create-room {
+    width: 100 * $px;
+    height: 100 * $px;
+    background-color: #ffffff;
+    line-height: 100 * $px;
+    text-align: center;
+    border-radius: 5 * $px;
+    box-shadow: 2px 2px 2px 2px rgba(120, 120, 120, .8);
+  }
+}
 
 </style>
