@@ -1,13 +1,13 @@
 <template>
   <div class="popup-overlay" :class="{'popup-hidden':!show}">
-    <div class="position-fix-center popup-body display-in-column" :class="{'popup-hidden':!show}" @click.stop>
-      <div class="a-popup-desc">
-        <p v-if="dangerouslyUseHTMLString" v-html="content"></p>
-        <p v-else>{{content}}</p>
+    <div class="popup-body display-in-column" :class="{'popup-hidden':!show}" @click.stop>
+      <div class="popup-desc">
+        <div v-if="dangerouslyUseHTMLString" v-html="content"></div>
+        <div v-else>{{content}}</div>
       </div>
-      <div class="a-btn-line">
-        <div v-if="showCancelButton" class="a-btn" :class="cancelButtonClass" @click="handleClickCancel">{{cancelButtonText}}</div>
-        <div class="a-btn" :class="confirmButtonClass" @click="handleClickConfirm">{{confirmButtonText}}</div>
+      <div class="popup-btn display-in-row">
+        <div v-if="showCancelButton" class="btn btn-sepreate-line" @click="handleClickCancel">{{cancelButtonText}}</div>
+        <div class="btn" @click="handleClickConfirm">{{confirmButtonText}}</div>
       </div>
     </div>
   </div>
@@ -39,13 +39,6 @@ export default {
       type: String,
       default: '取消'
     },
-    confirmButtonClass: {
-      type: String
-    },
-    cancelButtonClass: {
-      type: String,
-      default: 'a-btn-orange'
-    },
     showCancelButton: {
       type: Boolean,
       default: false
@@ -74,8 +67,33 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, .3);
   .popup-body {
-    border: 1px solid #cccccc;
+    position: fixed;
+    border: 1px solid #666666;
     border-radius: 5 * $px;
+    width: 160 * $px;
+    height: 80 * $px;
+    background-color: #ffffff;
+    left: 50%;
+    top: 50%;
+    margin-left: -80 * $px;
+    margin-top: -40 * $px;
+    .popup-desc {
+      height: 60 * $px;
+      text-align: center;
+    }
+    .popup-btn {
+      height: 20 * $px;
+      bottom: 0;
+      border-top: 1px solid #666666;
+      .btn {
+        line-height: 20 * $px;
+        text-align: center;
+        width: 100%;
+      }
+      .btn-sepreate-line {
+        margin-right: 1px solid #666666;
+      }
+    }
   }
 }
 
