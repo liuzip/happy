@@ -41,7 +41,9 @@ export default {
   methods: {
     ...mapMutations(['initStore']),
     createRoom () {
-      console.log('createRoom')
+      this.$router.push({
+        name: 'game'
+      })
     }
   }
 }
