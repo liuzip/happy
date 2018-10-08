@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const WebSocket = require('ws')
 const handler = require('../handler')
 
+const User = require('./interface/user')
+
 const app = express()
 
 app.use(bodyParser.json())
@@ -41,11 +43,17 @@ respond:
 }
 */
 wss.on('connection', function connection (ws) {
+  ws.user = new User(ws)
+  ws.user.queryUserId()
+
   ws.on('message', function incoming (message) {
     try {
       let request = JSON.parse(message)
-      let cmd = request.cmd
-      ws.send(handler[cmd](request.payload))
+      handler({
+        user: ws.user,
+        cmd: request.cmd,
+        payload: request.payload
+      })
     } catch (e) {
       console.log(e)
     }

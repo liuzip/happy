@@ -1,9 +1,7 @@
 const {
-  newGame,
-  newCard
+  newRoom
 } = require('./game')
 
 module.export = {
-  newGame,
-  newCard
+  newRoom
 }

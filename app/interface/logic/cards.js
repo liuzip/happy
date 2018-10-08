@@ -1,11 +1,5 @@
 // http://www.xqbase.com/other/mahjongg_english.htm 麻将术语翻译
 
-const Cards = function () {
-  this.list = []
-  this.dealIndex = 0
-  this.kongIndex = 0
-}
-
 const Card = function (type, num) {
   this.type = type // bamboo -> 条， pin -> 饼， wind -> 风， dragon -> 中、发、白
   this.num = num
@@ -18,6 +12,17 @@ const Card = function (type, num) {
 Card.prototype.cleanState = function () {
   this.player = null
   this.shown = false
+}
+
+Card.prototype.assignPlayer = function (player) {
+  this.player = player
+  this.shown = true
+}
+
+const Cards = function () {
+  this.list = []
+  this.dealIndex = 0
+  this.kongIndex = 0
 }
 
 Cards.prototype.init = function () {
