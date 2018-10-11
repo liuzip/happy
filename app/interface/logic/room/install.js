@@ -1,4 +1,4 @@
-const roomList = {}
+const roomList = {} // 所有的房间列表
 const Room = require('./index')
 
 module.exports = {
