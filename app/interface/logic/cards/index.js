@@ -76,4 +76,29 @@ Cards.prototype.kongCard = function () {
   return card
 }
 
+Cards.prototype.export = function () {
+  let leftCards = this.list.filter(c => {
+    return c.shown === false
+  })
+
+  let cardsInPool = this.list.filter(c => {
+    return c.shown === true && c.player === null
+  })
+
+  let kongedCards = this.list.filter(c => {
+    return c.konged !== 0 && c.player !== null
+  })
+
+  let pongedCards = this.list.filter(c => {
+    return c.ponged !== 0 && c.player !== null
+  })
+
+  return {
+    cardsInPool, // 翻出来并被打出的牌
+    kongedCards, // 被杠出来的牌，包括明杠和暗杠
+    pongedCards, // 被碰了的牌
+    leftCards: leftCards.length // 剩余多少张牌没有被翻出
+  }
+}
+
 module.export = Cards

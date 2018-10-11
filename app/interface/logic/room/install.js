@@ -41,7 +41,7 @@ module.exports = {
       return {
         cmd: 'room.currentState.ack',
         success: true,
-        payload: roomList[id].export
+        payload: roomList[id].export()
       }
     }
   }
