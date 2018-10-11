@@ -1,5 +1,5 @@
 const Cards = require('../cards/index')
-const Player = require('../player')
+const Player = require('../players/index')
 
 const Room = function (id) {
   this.id = id
