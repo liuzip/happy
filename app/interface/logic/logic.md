@@ -1,3 +1,5 @@
+## 需要使用mermaid查看
+
 ```mermaid
 graph TD
 A[开始游戏]-->B[发牌]
