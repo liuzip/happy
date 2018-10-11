@@ -1,7 +1,7 @@
 // 每当用户建立的了连接，就会新增一个user身份，所有逻辑和通信的操作，都是经过User/Game这两层来进行的
 
 const addCommand = require('./utils/addCommand')
-const room = require('./logic/room')
+const room = require('./logic/room/install')
 
 const User = function (con) {
   this.con = con
