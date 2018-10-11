@@ -32,6 +32,7 @@ export default {
       console.log(e)
     },
     wsMsg (r) {
+      console.log(r)
       try {
         const data = JSON.parse(r.data)
         console.log(data)
@@ -40,7 +41,7 @@ export default {
         console.log(e)
       }
 
-      this.sendMsg('123123')
+      // this.sendMsg('123123')
     },
     sendMsg (data) {
       this.ws.send(data)

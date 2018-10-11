@@ -5,15 +5,14 @@
 ### 请求
 ```
 {
-  'cmd': 'queryUserId',
-  'type': 'request'
+  'cmd': 'query.user.id'
 }
 ```
 ### 返回
 ```
 {
-  'cmd': 'queryUserId',
-  'type': 'response',
+  'cmd': 'ack.user.id'
+  'success': true/false,
   'payload': {
     'id': 'phone number',
     'alias': 'user alias'

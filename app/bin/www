@@ -5,9 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const bodyParser = require('body-parser')
 const WebSocket = require('ws')
-const handler = require('../handler')
-
-const User = require('./interface/user')
+const User = require('../interface/user')
 
 const app = express()
 
@@ -29,30 +27,17 @@ const wss = new WebSocket.Server({
   port: 8090
 })
 
-/*
-request:
-{
-  cmd: 'reuqst type',
-  payload: 'request payload'
-}
-
-respond:
-{
-  success: true / false
-  payload: 'response payload'
-}
-*/
 wss.on('connection', function connection (ws) {
   ws.user = new User(ws)
-  ws.user.queryUserId()
+  ws.user.user.id.query(ws.user)
 
   ws.on('message', function incoming (message) {
     try {
       let request = JSON.parse(message)
-      handler({
-        user: ws.user,
+      ws.user.handler({
         cmd: request.cmd,
-        payload: request.payload
+        payload: request.payload,
+        root: ws.user
       })
     } catch (e) {
       console.log(e)
