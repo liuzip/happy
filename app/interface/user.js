@@ -1,12 +1,13 @@
 // 每当用户建立的了连接，就会新增一个user身份，所有逻辑和通信的操作，都是经过User/Game这两层来进行的
 
 const addCommand = require('./utils/addCommand')
+const room = require('./logic/room')
 
 const User = function (con) {
   this.con = con
   this.id = null
   this.alias = ''
-  this._this = this
+  this.room = null // 用户所处的游戏房间
 }
 
 User.prototype.responseInvalidCMD = function (cmd) {
@@ -16,7 +17,7 @@ User.prototype.responseInvalidCMD = function (cmd) {
   })
 }
 
-User.prototype.runCommand = function (parsedCMD, payload, root) {
+User.prototype.runCommand = function (parsedCMD, parsedPayload, root) {
   if (parsedCMD[0] !== 'query' || parsedCMD[0] !== 'ack') {
     this.responseInvalidCMD(parsedCMD.join('.'))
     return
@@ -36,7 +37,7 @@ User.prototype.runCommand = function (parsedCMD, payload, root) {
   }
 
   if (target && typeof (target) === 'function') {
-    target(payload, root)
+    this.msgSend(target(parsedPayload, root))
   } else {
     this.responseInvalidCMD(parsedCMD.join('.'))
   }
@@ -44,6 +45,7 @@ User.prototype.runCommand = function (parsedCMD, payload, root) {
 
 User.prototype.handler = function ({ cmd, payload, root }) {
   let parsedCMD = null
+  let parsedPayload = null
 
   if (typeof (cmd) !== 'string') {
     this.responseInvalidCMD(cmd)
@@ -57,19 +59,29 @@ User.prototype.handler = function ({ cmd, payload, root }) {
     return
   }
 
-  this.runCommand(parsedCMD, payload, root)
+  try {
+    parsedPayload = JSON.parse(payload)
+  } catch (e) {
+    console.log(e)
+    this.responseInvalidCMD(cmd)
+    return
+  }
+
+  this.runCommand(parsedCMD, parsedPayload, root)
 }
 
 User.prototype.msgSend = function (msg) {
-  this.con.send(JSON.stringify(msg))
+  if (msg) {
+    this.con.send(JSON.stringify(msg))
+  }
 }
 
 addCommand.apply(
   User.prototype,
   [
     'user.id.query',
-    function (root) {
-      root.msgSend({
+    function (user) {
+      user.msgSend({
         cmd: 'query.user.id',
         type: 'request'
       })
@@ -81,11 +93,24 @@ addCommand.apply(
   User.prototype,
   [
     'user.id.ack',
-    function (payload, root) {
-      root.id = payload.id
-      root.alias = payload.alias
+    function (payload, user) {
+      user.id = payload.id
+      user.alias = payload.alias
     }
   ]
 )
+
+/**
+ * 用户房间相关api的注册
+**/
+for (let cmd in room) {
+  addCommand.apply(
+    User.prototype,
+    [
+      cmd,
+      room[cmd]
+    ]
+  )
+}
 
 module.exports = User

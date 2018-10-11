@@ -1,4 +1,5 @@
 module.exports = function (cmd, handler) {
+  console.log(cmd)
   let parsedCMD = cmd.split('.')
   let key = null
   let target = this
