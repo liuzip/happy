@@ -11,8 +11,8 @@
 ### 返回
 ```json
 {
-  "cmd": "ack.user.id"
-  "success": true / false,
+  "cmd": "ack.user.id",
+  "success": true,
   "payload": {
     "id": "用户id，以手机号替代",
     "alias": "用户昵称"
@@ -54,7 +54,7 @@
 ```json
 {
   "cmd": "room.join.ack",
-  "success": true / false
+  "success": true
 }
 ```
 
@@ -70,15 +70,18 @@
 }
 ```
 ### 返回
+* cards --> 所有牌列表
+* players --> 玩家列表
+* currentPlayers --> 当前玩家
 ```json
 {
   "cmd": "room.currentState.ack",
-  "success": true / false,
+  "success": true,
   "payload": {
     "id": "房间号",
-    "cards": [], // 所有牌列表
-    "players": [], // 玩家列表
-    "currentPlayers": 0 // 当前玩家
+    "cards": [],
+    "players": [],
+    "currentPlayers": 0
   }
 }
 ```
