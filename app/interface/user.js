@@ -1,7 +1,10 @@
 // 每当用户建立的了连接，就会新增一个user身份，所有逻辑和通信的操作，都是经过User/Game这两层来进行的
 
 const addCommand = require('./utils/addCommand')
-const room = require('./logic/room/install')
+const room = require('./logic/room/install') // 用户房间相关api
+const game = require('./logic/game/install') // 房间内game相关api
+
+const api = Object.assign({}, room, game)
 
 const User = function (con) {
   this.con = con
@@ -101,14 +104,14 @@ addCommand.apply(
 )
 
 /**
- * 用户房间相关api的注册
+ * 注册相关api
 **/
-for (let cmd in room) {
+for (let cmd in api) {
   addCommand.apply(
     User.prototype,
     [
       cmd,
-      room[cmd]
+      api[cmd]
     ]
   )
 }
