@@ -1,4 +1,4 @@
-const Cards = require('../cards')
+const Cards = require('../cards/index')
 const Player = require('../player')
 
 const Room = function (id) {
@@ -32,6 +32,15 @@ Room.prototype.joinRoom = function (opts) {
 Room.prototype.dealCard = function () {
   let card = this.cards.dealCard()
   card.assignPlayer(this.players.dealCard(card))
+}
+
+Room.prototype.export = function () {
+  return {
+    id: this.id,
+    cards: this.cards.export(),
+    players: this.players,
+    currentPlayers: this.currentPlayers
+  }
 }
 
 module.exports = Room
